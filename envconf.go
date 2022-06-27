@@ -59,12 +59,12 @@ func LoadConfig(c interface{}) {
 			required = false
 		}
 
-		if required && len(defaultVal) == 0 {
-			errHandler(fmt.Errorf("required field %s [%s] has no default value", field.Name, envVar))
-		}
-
 		if len(envVar) > 0 || len(defaultVal) > 0 {
 			val := defaultEnv(envVar, defaultVal)
+
+			if required && len(defaultVal) == 0 {
+				errHandler(fmt.Errorf("required field %s [%s] has no default value", field.Name, envVar))
+			}
 
 			switch field.Type.Kind() {
 			case reflect.String:
